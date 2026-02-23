@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أساسيات الكمبيوتر</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0f172a;
+    --accent: #3b82f6;
+    --accent2: #06b6d4;
+    --gold: #f59e0b;
+    --surface: #1e293b;
+    --surface2: #0f172a;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --success: #10b981;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--primary);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* BG pattern */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(59,130,246,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(6,182,212,0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: linear-gradient(180deg, rgba(59,130,246,0.1) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(59,130,246,0.3);
+    color: var(--accent);
+    font-size: 0.8rem;
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #e2e8f0, #3b82f6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .hero p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 30px;
+  }
+
+  /* Team Cards */
+  .team {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+
+  .team-card {
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.25);
+    border-radius: 12px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s;
+  }
+
+  .team-card:hover {
+    background: rgba(59,130,246,0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(59,130,246,0.2);
+  }
+
+  .avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; font-weight: 700; color: white;
+    flex-shrink: 0;
+  }
+
+  .team-card .name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .team-card .role {
+    font-size: 0.75rem;
+    color: var(--accent2);
+  }
+
+  /* TOC */
+  .toc {
+    position: relative; z-index: 1;
+    max-width: 900px; margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  .toc-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+  }
+
+  .toc-title {
+    font-size: 1rem;
+    color: var(--gold);
+    margin-bottom: 16px;
+    font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+
+  .toc-item {
+    display: flex; align-items: center; gap: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .toc-item:hover {
+    background: rgba(59,130,246,0.1);
+    color: var(--accent);
+  }
+
+  .toc-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(59,130,246,0.2);
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* MAIN CONTENT */
+  .content {
+    position: relative; z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* Section */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-header {
+    padding: 24px 32px;
+    background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(6,182,212,0.05));
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-num {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 900; color: white;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+  }
+
+  .section-header h2 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .section-header .sub {
+    font-size: 0.8rem;
+    color: var(--accent2);
+    margin-top: 2px;
+  }
+
+  .section-body {
+    padding: 28px 32px;
+  }
+
+  /* Component Grid */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .comp-card {
+    background: rgba(15,23,42,0.6);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .comp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    border-radius: 0 14px 14px 0;
+  }
+
+  .comp-card:hover {
+    border-color: rgba(59,130,246,0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  }
+
+  .comp-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .comp-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .comp-name span {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+
+  .comp-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* Steps */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 8px;
+  }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    position: relative;
+  }
+
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 19px;
+    top: 52px;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+
+  .step-num {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; font-weight: 700; color: white;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+    z-index: 1;
+  }
+
+  .step-content {
+    flex: 1;
+    padding-top: 8px;
+  }
+
+  .step-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .step-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* Options Grid (Shutdown/Sleep) */
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .option-card {
+    background: rgba(15,23,42,0.6);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .option-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  }
+
+  .option-card.shutdown { border-top: 3px solid #ef4444; }
+  .option-card.restart  { border-top: 3px solid var(--gold); }
+  .option-card.sleep    { border-top: 3px solid var(--accent2); }
+
+  .option-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .option-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .option-func {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .option-when {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+  .shutdown .option-when { background: rgba(239,68,68,0.15); color: #ef4444; }
+  .restart  .option-when { background: rgba(245,158,11,0.15); color: var(--gold); }
+  .sleep    .option-when { background: rgba(6,182,212,0.15); color: var(--accent2); }
+
+  /* Warning Box */
+  .warning {
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-top: 20px;
+  }
+
+  .warning-title {
+    color: #ef4444;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* Danger Cards */
+  .danger-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .danger-card {
+    background: rgba(239,68,68,0.06);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 14px;
+    padding: 18px;
+    transition: all 0.3s;
+  }
+
+  .danger-card:hover {
+    border-color: rgba(239,68,68,0.4);
+    transform: translateY(-3px);
+  }
+
+  .danger-icon { font-size: 2rem; margin-bottom: 10px; }
+  .danger-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ef4444;
+    margin-bottom: 6px;
+  }
+  .danger-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* Metaphor */
+  .metaphor {
+    background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(6,182,212,0.05));
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .metaphor-icon { font-size: 2rem; flex-shrink: 0; }
+  .metaphor-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; }
+  .metaphor-text strong { color: var(--accent2); }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+
+  /* Intro text */
+  .intro-text {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  /* Sub section title */
+  .sub-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 20px 0 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .sub-title::before {
+    content: '';
+    width: 4px; height: 20px;
+    background: var(--accent);
+    border-radius: 2px;
+    display: block;
+  }
+
+  /* Footer */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 30px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+
+  footer span { color: var(--accent); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--primary); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 600px) {
+    .section-header, .section-body { padding: 18px; }
+    .team { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-badge">👨‍💻سيڪشن الحاسب الالي1  </div>
+  <h1>أساسيات الكمبيوتر</h1>
+  <p>دليلك الشامل لفهم مكونات الجهاز وطريقة تشغيله وفصله بالشكل الصح</p>
+
+  <div class="team">
+    <div class="team-card">
+      <div class="avatar">MS</div>
+      <div>
+        <div class="name">𝑴𝑶𝑺𝑻𝑨𝑭𝑨 𝑺𝑨𝑳𝑳𝑨𝑴</div>
+        <div class="role">مُعِدّ المحتوى</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="avatar">NM</div>
+      <div>
+        <div class="name">𝑵𝑨𝑫𝑬𝑹 𝑴𝑶𝑯𝑨𝑴𝑬𝑫</div>
+        <div class="role">مُعِدّ المحتوى</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="avatar">MI</div>
+      <div>
+        <div class="name">𝑴𝒆𝒏𝒏𝒂𝒂𝒍𝒍𝒂𝒉 𝑰𝒔𝒎𝒂𝒊𝒍</div>
+        <div class="role">مُعِدّ المحتوى</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TOC -->
+<nav class="toc">
+  <div class="toc-box">
+    <div class="toc-title">🗂️ محتويات الدرس</div>
+    <div class="toc-grid">
+      <a class="toc-item" onclick="scrollTo('s1')"><span class="toc-num">١</span> مكونات الهاردوير</a>
+      <a class="toc-item" onclick="scrollTo('s2')"><span class="toc-num">٢</span> تشغيل الكمبيوتر</a>
+      <a class="toc-item" onclick="scrollTo('s3')"><span class="toc-num">٣</span> فصل الكمبيوتر</a>
+      <a class="toc-item" onclick="scrollTo('s4')"><span class="toc-num">٤</span> الإعادة والنوم</a>
+      <a class="toc-item" onclick="scrollTo('s5')"><span class="toc-num">٥</span> لماذا لا نشيل الفيشة؟</a>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<main class="content">
+
+  <!-- SECTION 1: Hardware -->
+  <section class="section" id="s1">
+    <div class="section-header">
+      <div class="section-num">١</div>
+      <div>
+        <h2>مكونات الهاردوير (Hardware Components)</h2>
+        <div class="sub">الأجزاء الملموسة اللي جوه وبره الكيسة</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="intro-text">دي الأجزاء المادية الملموسة اللي بتشكل الكمبيوتر، كل قطعة ليها دور مهم ومختلف:</p>
+      <div class="comp-grid">
+        <div class="comp-card">
+          <span class="comp-icon">🖥️</span>
+          <div class="comp-name">اللوحة الأم <span>(Motherboard)</span></div>
+          <div class="comp-desc">اللوحة الكبيرة اللي بتجمع وتوصل كل القطع ببعضها — هي العمود الفقري للجهاز.</div>
+        </div>
+        <div class="comp-card">
+          <span class="comp-icon">🧠</span>
+          <div class="comp-name">المعالج <span>(CPU)</span></div>
+          <div class="comp-desc">عقل الجهاز المسؤول عن تنفيذ الأوامر والعمليات الحسابية. كل ما كان أسرع كان أفضل.</div>
+        </div>
+        <div class="comp-card">
+          <span class="comp-icon">⚡</span>
+          <div class="comp-name">الرامات <span>(RAM)</span></div>
+          <div class="comp-desc">الذاكرة المؤقتة اللي بتشيل البيانات اللي بتشتغل عليها "دلوقتي" — بتتمسح لما تقفل الجهاز.</div>
+        </div>
+        <div class="comp-card">
+          <span class="comp-icon">💾</span>
+          <div class="comp-name">الهارد <span>(Storage)</span></div>
+          <div class="comp-desc">المخزن الدائم لكل ملفاتك، صورك، ونظام الويندوز — البيانات هنا بتفضل حتى بعد الإغلاق.</div>
+        </div>
+        <div class="comp-card">
+          <span class="comp-icon">🎮</span>
+          <div class="comp-name">كارت الشاشة <span>(GPU)</span></div>
+          <div class="comp-desc">المسؤول عن معالجة الصور والجرافيك والألعاب — مهم جداً للمصممين وعشاق الجيمنج.</div>
+        </div>
+        <div class="comp-card">
+          <span class="comp-icon">🔌</span>
+          <div class="comp-name">مزود الطاقة <span>(Power Supply)</span></div>
+          <div class="comp-desc">بياخد الكهرباء من الشبكة ويوزعها بانتظام وبأمان لكل قطع الجهاز.</div>
+        </div>
+        <div class="comp-card">
+          <span class="comp-icon">🔗</span>
+          <div class="comp-name">منافذ التوصيل <span>(Ports)</span></div>
+          <div class="comp-desc">الفتحات الخارجية زي USB وHDMI اللي بنوصل بيها الأجهزة التانية للكمبيوتر.</div>
+        </div>
+        <div class="comp-card">
+          <span class="comp-icon">❄️</span>
+          <div class="comp-name">نظام التبريد <span>(Cooling)</span></div>
+          <div class="comp-desc">المراوح والمبردات اللي بتحمي القطع الداخلية من الحرارة الزيادة اللي ممكن تتلفها.</div>
+        </div>
+        <div class="comp-card">
+          <span class="comp-icon">⌨️</span>
+          <div class="comp-name">وحدات الإدخال والإخراج <span>(I/O Units)</span></div>
+          <div class="comp-desc">الوسيلة اللي بنتواصل بيها مع الجهاز — زي الكيبورد والماوس والشاشة والسماعات.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: Turn On -->
+  <section class="section" id="s2">
+    <div class="section-header">
+      <div class="section-num">٢</div>
+      <div>
+        <h2>طريقة تشغيل الكمبيوتر</h2>
+        <div class="sub">Turn On — الخطوات البسيطة لتشغيل جهازك</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">١</div>
+          <div class="step-content">
+            <div class="step-title">🔌 التوصيلات</div>
+            <div class="step-desc">تأكد إن كابل الكهرباء متوصل بالجهاز وبالفيشة في الحائط كويس.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">٢</div>
+          <div class="step-content">
+            <div class="step-title">⏻ زر الطاقة (Power Button)</div>
+            <div class="step-desc">اضغط ضغطة واحدة على زر الطاقة الموجود في "كيسة" الكمبيوتر أو على لوحة مفاتيح اللابتوب — غالباً هتلاقي عليه رمز دائرة وفيها خط عمودي ⏻</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">٣</div>
+          <div class="step-content">
+            <div class="step-title">🖥️ الشاشة (للكمبيوتر المكتبي)</div>
+            <div class="step-desc">لو بتستخدم كمبيوتر مكتبي، تأكد إنك ضغطت على زر تشغيل الشاشة كمان عشان تشوف أي حاجة.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">٤</div>
+          <div class="step-content">
+            <div class="step-title">⏳ الانتظار</div>
+            <div class="step-desc">انتظر ثواني لحد ما يظهر شعار نظام التشغيل (ويندوز مثلاً) وتظهرلك سطح المكتب — الجهاز بيجهز نفسه وبيشغّل كل الخدمات المطلوبة.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: Shut Down -->
+  <section class="section" id="s3">
+    <div class="section-header">
+      <div class="section-num">٣</div>
+      <div>
+        <h2>طريقة فصل الكمبيوتر</h2>
+        <div class="sub">Shut Down — الطريقة الصح والآمنة</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="warning">
+        <div class="warning-title">⚠️ ملحوظة مهمة جداً</div>
+        <p style="font-size:0.9rem; color: var(--text-muted); line-height:1.7;">بلاش تفصل الكهرباء فجأة أو تضغط على زرار الباور اللي في الكيسة ضغطة طويلة إلا في حالات الطوارئ — عشان الملفات ما يحصلش فيها تلف!</p>
+      </div>
+      <div class="sub-title">الطريقة الصحيحة خطوة خطوة:</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">١</div>
+          <div class="step-content">
+            <div class="step-title">🪟 قائمة ابدأ (Start Menu)</div>
+            <div class="step-desc">اضغط بالماوس على علامة الويندوز أسفل الشاشة (على الشمال أو اليمين حسب لغة جهازك).</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">٢</div>
+          <div class="step-content">
+            <div class="step-title">⏻ زر الطاقة (Power)</div>
+            <div class="step-desc">اضغط على أيقونة الطاقة اللي هتلاقيها في القايمة.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">٣</div>
+          <div class="step-content">
+            <div class="step-title">🔴 إيقاف التشغيل (Shut down)</div>
+            <div class="step-desc">اختار كلمة "Shut down" — الجهاز هيقفل كل البرامج لوحده ويفصل الكهرباء بأمان تام.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: Power Options -->
+  <section class="section" id="s4">
+    <div class="section-header">
+      <div class="section-num">٤</div>
+      <div>
+        <h2>خيارات الطاقة</h2>
+        <div class="sub">Shut down / Restart / Sleep — ايه الفرق؟</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="intro-text">لما تضغط على علامة الويندوز (Start) ثم أيقونة الطاقة (Power)، هتظهرلك الخيارات دي:</p>
+      <div class="options-grid">
+        <div class="option-card shutdown">
+          <div class="option-icon">🔴</div>
+          <div class="option-title">إيقاف التشغيل<br><small style="color:var(--text-muted)">Shut down</small></div>
+          <div class="option-func">يغلق جميع البرامج المفتوحة ويطفي الجهاز تماماً ويقطع الكهرباء عنه.</div>
+          <div class="option-when">✅ لما تخلص شغلك خالص</div>
+        </div>
+        <div class="option-card restart">
+          <div class="option-icon">🔄</div>
+          <div class="option-title">إعادة التشغيل<br><small style="color:var(--text-muted)">Restart</small></div>
+          <div class="option-func">يقفل الجهاز ويفتحه تاني فوراً بشكل تلقائي — بيمسح الذاكرة المؤقتة.</div>
+          <div class="option-when">🛠️ لو الجهاز "هنج" أو بعد تحديث</div>
+        </div>
+        <div class="option-card sleep">
+          <div class="option-icon">😴</div>
+          <div class="option-title">وضع النوم<br><small style="color:var(--text-muted)">Sleep</small></div>
+          <div class="option-func">الجهاز يفضل شغال باستهلاك كهرباء قليل جداً ويحفظ كل الحاجات اللي فاتحها زي ما هي.</div>
+          <div class="option-when">💤 لو هتقوم لفترة قصيرة</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: Why not unplug -->
+  <section class="section" id="s5">
+    <div class="section-header">
+      <div class="section-num">٥</div>
+      <div>
+        <h2>ليه مينفعش نشيل فيشة الكمبيوتر على طول؟</h2>
+        <div class="sub">٣ مخاطر كبيرة لازم تعرفها</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="metaphor">
+        <div class="metaphor-icon">🚶</div>
+        <div class="metaphor-text">
+          تخيل إنك ماشي بسرعة وفجأة حد حط قدامك حيطة! <strong>ده بالظبط اللي بيحصل للكمبيوتر لما تشيل الفيشة فجأة.</strong> الموضوع مش مجرد كهرباء اقطعت — فيه 3 مخاطر حقيقية كبيرة:
+        </div>
+      </div>
+      <div class="danger-grid">
+        <div class="danger-card">
+          <div class="danger-icon">📄</div>
+          <div class="danger-title">١. ضياع شغل تعبك<br><small>(Data Loss)</small></div>
+          <div class="danger-desc">الكمبيوتر طول ما هو شغال، في بيانات بتتحرك بين الرامات والهارد. لما تفصل الفيشة فجأة، الملفات اللي كنت فاتحها وشغال عليها "بتطير" لأنها ملحقتش تتحفظ على الهارد.</div>
+        </div>
+        <div class="danger-card">
+          <div class="danger-icon">💻</div>
+          <div class="danger-title">٢. تلف نظام التشغيل<br><small>(OS Corruption)</small></div>
+          <div class="danger-desc">الويندوز بيبقى فاتح ملفات "سيستم" مهمة جداً في الخلفية. لو الكهرباء اقطعت وهو بيعدل فيها، الملف بيبوظ. النتيجة؟ المرة الجاية هتلاقي شاشة زرقاء أو رسالة "تعذر بدء التشغيل"!</div>
+        </div>
+        <div class="danger-card">
+          <div class="danger-icon">⚙️</div>
+          <div class="danger-title">٣. ضرر الأجزاء الداخلية<br><small>(Hardware Damage)</small></div>
+          <div class="danger-desc">
+            <strong style="color:var(--text)">الهارد HDD القديم:</strong> فيه إبرة بتتحرك بسرعة رهيبة فوق أسطوانة. لما الكهرباء تقطع فجأة، الإبرة ممكن تخبط في الأسطوانة وتجرحها (Bad Sector).<br><br>
+            <strong style="color:var(--text)">الدوائر الكهربائية:</strong> الاندفاع المفاجئ للكهرباء ممكن يحرق قطعة في البوردة.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>تم إعداد هذا الموقع التعليمي بواسطة <span>Mostafa Sallam</span> · <span>Nader Mohamed</span> · <span>Mennaalah Ismail</span></p>
+  <p style="margin-top:8px; font-size:0.78rem;">© 2025 — مادة تكنولوجيا المعلومات</p>
+</footer>
+
+<script>
+  // Smooth scroll
+  function scrollTo(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Intersection Observer for fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.section').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
+
