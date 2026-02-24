@@ -880,6 +880,17 @@
 </script>
 </body>
 </html>
-<div align="center" style="margin-top: 20px;">
-    <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fmostafasalam447-collab.github.io%2Fcomputer%2F&count_bg=%2379C83D&title_bg=%23555555&icon=github.svg&icon_color=%23E7E7E7&title=Visitors&edge_flat=false" alt="Visitor Count">
+<div align="center" style="margin-top: 20px; font-family: Arial, sans-serif;">
+    <div style="background: #24292e; color: #fff; display: inline-block; padding: 5px 15px; border-radius: 5px; font-size: 14px;">
+        <i class="fab fa-github"></i> Visitors: 
+        <span id="visits" style="color: #79c83d; font-weight: bold;">...</span>
+    </div>
 </div>
+
+<script>
+    // ده كود بيسجل الزيارة فعلياً في قاعدة بيانات خارجية مجانية
+    function cb(response) {
+        document.getElementById('visits').innerText = response.value;
+    }
+</script>
+<script async src="https://api.countapi.xyz/hit/mostafasalam447-computer/visits?callback=cb"></script>
